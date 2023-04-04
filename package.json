@@ -1,0 +1,17 @@
+{
+  "name": "dices_total",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --respawn -- src/index.ts"
+  },
+  "dependencies": {
+    "tsc": "^2.0.4",
+    "typescript": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "ts-node-dev": "^2.0.0"
+  }
+}

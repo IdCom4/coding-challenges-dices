@@ -4,12 +4,12 @@ function getCurrentConfigurationOutput(dices: number[]) {
   return dices.reduce((currentTotal, nextValue) => currentTotal + nextValue, 0)
 }
 
-function goToNextConfiguration(dices: number[], diceMaxValue: number) {
+function goToNextConfiguration(dices: number[], numberOfFace: number) {
   let offsetIndex = 1
   let wantedIndex = dices.length - offsetIndex
 
   while (wantedIndex >= 0) {
-    if (dices[wantedIndex] < diceMaxValue) {
+    if (dices[wantedIndex] < numberOfFace) {
       dices[wantedIndex]++
       return true
     }
@@ -23,7 +23,7 @@ function goToNextConfiguration(dices: number[], diceMaxValue: number) {
   return false
 }
 
-function goToNextDiceNextConfiguration(dices: number[], diceMaxValue: number) {
+function goToNextDiceNextConfiguration(dices: number[], numberOfFace: number) {
   let offsetIndex = 1
   let wantedIndex = dices.length - offsetIndex
 
@@ -31,7 +31,7 @@ function goToNextDiceNextConfiguration(dices: number[], diceMaxValue: number) {
   wantedIndex--
 
   while (wantedIndex >= 0) {
-    if (dices[wantedIndex] < diceMaxValue) {
+    if (dices[wantedIndex] < numberOfFace) {
       dices[wantedIndex]++
       return true
     }
@@ -45,26 +45,29 @@ function goToNextDiceNextConfiguration(dices: number[], diceMaxValue: number) {
   return false
 }
 
-export function getDicesNumberOfConfigurationsForOutput(output: number, diceAmount: number, diceMaxValue = 6): number {
-  if (diceAmount < 1 || output < 1) return PROBABILITY.NONE
-  if (output < diceAmount) return PROBABILITY.NONE
-  if (output > diceAmount * diceMaxValue) return PROBABILITY.NONE
+export default function getTotalPossibleConfigurations(total: number, numberOfDices: number, numberOfFace = 6): number {
+  const invalidInputs = numberOfDices < 1 || total < 1
+    const impossibleDices = numberOfFace < 1
+  const tooMuchDices = total < numberOfDices
+  const notEnoughDices = total > numberOfDices * numberOfFace
 
-  const dices: number[] = new Array<number>(diceAmount).fill(1)
+  if (invalidInputs || impossibleDices || tooMuchDices || notEnoughDices) return PROBABILITY.NONE
+
+  const dices: number[] = new Array<number>(numberOfDices).fill(1)
 
   let nbrConfigurations = 0
-  let currentConfigurationOutput = diceAmount
+  let currentConfigurationOutput = numberOfDices
 
-  while (currentConfigurationOutput < diceAmount * diceMaxValue) {
+  while (currentConfigurationOutput < numberOfDices * numberOfFace) {
     
     currentConfigurationOutput = getCurrentConfigurationOutput(dices)
 
-    if (currentConfigurationOutput === output) nbrConfigurations++
+    if (currentConfigurationOutput === total) nbrConfigurations++
     
-    if (currentConfigurationOutput > output) {
-      if (!goToNextDiceNextConfiguration(dices, diceMaxValue)) break
+    if (currentConfigurationOutput > total) {
+      if (!goToNextDiceNextConfiguration(dices, numberOfFace)) break
     } else {
-      if (!goToNextConfiguration(dices, diceMaxValue)) break
+      if (!goToNextConfiguration(dices, numberOfFace)) break
     }
   }
 

@@ -1,6 +1,8 @@
-import { getDicesNumberOfConfigurationsForOutput as v1 } from "./v1"
-import { getDicesNumberOfConfigurationsForOutput as v2 } from "./v2"
-import { getDicesNumberOfConfigurationsForOutput as v3 } from "./v3"
+import v1 from "./v1"
+import v2 from "./v2"
+import v3 from "./v3"
+import v4 from "./v4"
+import v5 from "./v5"
 
 if (process.argv.length < 4) {
   console.log('[ERROR] usage: <exec> [output] [diceAmount] ([maxDiceValue])')
@@ -24,10 +26,13 @@ try {
 const versions = [
   v1,
   v2,
-  v3
+  v3,
+  v4,
+  v5
 ]
 
 for(let index = 0; index < versions.length; index++) {
+// for(let index = versions.length - 1; index >= 0; index--) {
   const hrstart = process.hrtime()
   const amount = versions[index](output, diceAmount, maxDiceValue)
   const hrend = process.hrtime(hrstart)

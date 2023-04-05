@@ -4,26 +4,7 @@ function getCurrentConfigurationOutput(dices: number[]) {
   return dices.reduce((currentTotal, nextValue) => currentTotal + nextValue, 0)
 }
 
-function goToNextConfiguration(dices: number[], diceMaxValue: number) {
-  let offsetIndex = 1
-  let wantedIndex = dices.length - offsetIndex
-
-  while (wantedIndex >= 0) {
-    if (dices[wantedIndex] < diceMaxValue) {
-      dices[wantedIndex]++
-      return true
-    }
-    else if (wantedIndex === 0) return false
- 
-    dices[wantedIndex] = 1
-    wantedIndex--
-  }
-
-  console.log({dices})
-  return false
-}
-
-function goToNextDiceNextConfiguration(dices: number[], diceMaxValue: number) {
+function goToNextDiceNextConfiguration(dices: number[], numberOfFace: number) {
   let offsetIndex = 1
   let wantedIndex = dices.length - offsetIndex
 
@@ -32,7 +13,7 @@ function goToNextDiceNextConfiguration(dices: number[], diceMaxValue: number) {
 
   // console.log('checking !')
   while (wantedIndex >= 0) {
-    if (dices[wantedIndex] < diceMaxValue) {
+    if (dices[wantedIndex] < numberOfFace) {
       dices[wantedIndex]++
       return true
     }
@@ -48,46 +29,22 @@ function goToNextDiceNextConfiguration(dices: number[], diceMaxValue: number) {
   return false
 }
 
-/* function jumpToNextValidConfiguration(dices: number[], diceMaxValue: number, diffToJump: number) {
-  let offsetIndex = 1
-  let wantedIndex = dices.length - offsetIndex
-
-  console.log("====")
-  console.log({ dices })
-  console.log("diff: ", diffToJump)
-  while (wantedIndex >= 0) {
-    
-    if (!wantedIndex && dices[wantedIndex] + diffToJump > diceMaxValue) return false
-
-    const totalFlow = dices[wantedIndex] + diffToJump
-    dices[wantedIndex] = (totalFlow % diceMaxValue) || diceMaxValue
-    diffToJump = Math.floor(totalFlow / diceMaxValue)
-
-    console.log({ dices })
-    if (diffToJump === 0) return true
-
-    wantedIndex--
-  }
-
-  return false
-} */
-
-function jumpToNextValidHigherConfiguration(dices: number[], diceMaxValue: number, diffToJump: number) {
+function jumpToNextValidHigherConfiguration(dices: number[], numberOfFace: number, diffToJump: number) {
   let offsetIndex = 1
   let wantedIndex = dices.length - offsetIndex
 
   // console.log("====\nin jumpToHigher")
   while (wantedIndex >= 0) {
     
-    if (!wantedIndex && dices[wantedIndex] + diffToJump > diceMaxValue) return false
+    if (!wantedIndex && dices[wantedIndex] + diffToJump > numberOfFace) return false
 
-    if (dices[wantedIndex] + diffToJump <= diceMaxValue) {
+    if (dices[wantedIndex] + diffToJump <= numberOfFace) {
       dices[wantedIndex] += diffToJump
       return true
     }
 
-    diffToJump -= diceMaxValue - dices[wantedIndex]
-    dices[wantedIndex] = diceMaxValue
+    diffToJump -= numberOfFace - dices[wantedIndex]
+    dices[wantedIndex] = numberOfFace
 
     wantedIndex--
   }
@@ -95,16 +52,12 @@ function jumpToNextValidHigherConfiguration(dices: number[], diceMaxValue: numbe
   return false
 }
 
-function jumpToNextLowerEnoughConfiguration(dices: number[], diceMaxValue: number, wantedTotal: number) {
+function jumpToNextLowerEnoughConfiguration(dices: number[], numberOfFace: number, wantedTotal: number) {
   let offsetIndex = 1
   let wantedIndex = dices.length - offsetIndex
 
   let currentConfigurationOutput = getCurrentConfigurationOutput(dices)
 
-  // console.log("====\nin jumpToLower")
-  // console.log("input dices: ", dices)
-  // need to lower the total
-  // then jump to next valid higher
   while (currentConfigurationOutput > wantedTotal) {
     if (!wantedIndex) return false
 
@@ -114,7 +67,7 @@ function jumpToNextLowerEnoughConfiguration(dices: number[], diceMaxValue: numbe
     for (let i = 1; i <= wantedIndex; i++) {
       dices[wantedIndex - i] += 1
       currentConfigurationOutput++
-      if (dices[wantedIndex - i] <= diceMaxValue) break
+      if (dices[wantedIndex - i] <= numberOfFace) break
       else if (!(wantedIndex - i)) return false
       else {
         currentConfigurationOutput -= dices[wantedIndex - i] - 1
@@ -127,38 +80,35 @@ function jumpToNextLowerEnoughConfiguration(dices: number[], diceMaxValue: numbe
   return true
 }
 
-export function getDicesNumberOfConfigurationsForOutput(output: number, diceAmount: number, diceMaxValue = 6): number {
-  if (diceAmount < 1 || output < 1) return PROBABILITY.NONE
-  if (output < diceAmount) return PROBABILITY.NONE
-  if (output > diceAmount * diceMaxValue) return PROBABILITY.NONE
+export default function getTotalPossibleConfigurations(total: number, numberOfDices: number, numberOfFace = 6): number {
+  const invalidInputs = numberOfDices < 1 || total < 1
+    const impossibleDices = numberOfFace < 1
+  const tooMuchDices = total < numberOfDices
+  const notEnoughDices = total > numberOfDices * numberOfFace
 
-  const dices: number[] = new Array<number>(diceAmount).fill(1)
+  if (invalidInputs || impossibleDices || tooMuchDices || notEnoughDices) return PROBABILITY.NONE
+
+  const dices: number[] = new Array<number>(numberOfDices).fill(1)
 
   let nbrConfigurations = 0
-  let currentConfigurationOutput = diceAmount
+  let currentConfigurationOutput = numberOfDices
 
-  while (currentConfigurationOutput < diceAmount * diceMaxValue) {
+  while (currentConfigurationOutput < numberOfDices * numberOfFace) {
     
     currentConfigurationOutput = getCurrentConfigurationOutput(dices)
 
-    if (currentConfigurationOutput === output) {
+    if (currentConfigurationOutput === total) {
       nbrConfigurations++
-      if (!goToNextDiceNextConfiguration(dices, diceMaxValue)) break
+      if (!goToNextDiceNextConfiguration(dices, numberOfFace)) break
     }
     else {
-      if (currentConfigurationOutput < output) {
-        if (!jumpToNextValidHigherConfiguration(dices, diceMaxValue, output - currentConfigurationOutput)) break
+      if (currentConfigurationOutput < total) {
+        if (!jumpToNextValidHigherConfiguration(dices, numberOfFace, total - currentConfigurationOutput)) break
       }
       else {
-        if (!jumpToNextLowerEnoughConfiguration(dices, diceMaxValue, output)) break
+        if (!jumpToNextLowerEnoughConfiguration(dices, numberOfFace, total)) break
       }
     }
-    /* 
-    if (currentConfigurationOutput > output) {
-      if (!goToNextDiceNextConfiguration(dices, diceMaxValue)) break
-    } else {
-      if (!goToNextConfiguration(dices, diceMaxValue)) break
-    } */
   }
 
   return nbrConfigurations

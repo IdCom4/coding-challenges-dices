@@ -31,8 +31,8 @@ const versions = [
   v5
 ]
 
-for(let index = 0; index < versions.length; index++) {
-// for(let index = versions.length - 1; index >= 0; index--) {
+// for(let index = 0; index < versions.length; index++) { // -> slowest to fastest
+for(let index = versions.length - 1; index >= 0; index--) { // -> fastest to slowest
   const hrstart = process.hrtime()
   const amount = versions[index](output, diceAmount, maxDiceValue)
   const hrend = process.hrtime(hrstart)

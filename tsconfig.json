@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "module": "CommonJS",
     "target": "ES6",
     "strict": true,
     "baseUrl": "./src",
-    "outDir": "./output",
-    "moduleResolution": "node"
+    "outDir": "./dist",
+    
   }
 }

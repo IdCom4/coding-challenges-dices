@@ -1,10 +1,13 @@
 {
   "name": "dices_total",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --respawn -- src/index.ts"
+    "dev": "ts-node-dev --respawn -- src/index.ts",
+    "prestart": "tsc",
+    "start": "node ./dist/src/index.js",
+    "poststart": "rimraf ./dist"
   },
   "dependencies": {
     "tsc": "^2.0.4",
@@ -12,6 +15,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
+    "rimraf": "^4.4.1",
     "ts-node-dev": "^2.0.0"
   }
 }

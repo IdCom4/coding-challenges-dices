@@ -1,13 +1,11 @@
-import { PROBABILITY } from "./common"
-
 export default function getTotalPossibleConfigurations(total: number, numberOfDices: number, numberOfFace = 6): number {
 
   const invalidInputs = numberOfDices < 1 || total < 1
-    const impossibleDices = numberOfFace < 1
+  const impossibleDices = numberOfFace < 1
   const tooMuchDices = total < numberOfDices
   const notEnoughDices = total > numberOfDices * numberOfFace
 
-  if (invalidInputs || impossibleDices || tooMuchDices || notEnoughDices) return PROBABILITY.NONE
+  if (invalidInputs || impossibleDices || tooMuchDices || notEnoughDices) return 0
 
   if (numberOfDices === 1) return 1
 

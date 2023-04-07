@@ -22,6 +22,8 @@ const numberOfFace = 6
 const result = fastestVersion(total, numberOfDices, numberOfFace)
 ```
 
+## Previous versions
+
 Alternatively, if you want to try out the other (and slower) versions, you can do so:
 ```ts
 import v1 from './src/v1'
@@ -68,5 +70,18 @@ const formattedExecutionTime = `(${executionTime[0]}s ${executionTime[1] / 10000
 
 // use it
 console.log(`result: ${result} (${formattedExecutionTime})`)
-
 ```
+
+Here are some reference performances for each version:
+
+```bash
+$> yarn start 28 12 8
+
+[V1] number of possible configurations for a total output of [28] with [12] D8: 12130877 (1562s 762.7643ms)
+[V2] number of possible configurations for a total output of [28] with [12] D8: 12130877 (181s 992.145ms)
+[V3] number of possible configurations for a total output of [28] with [12] D8: 12130877 (0s 733.3636ms)
+[V4] number of possible configurations for a total output of [28] with [12] D8: 12130877 (0s 188.8524ms)
+[V5] number of possible configurations for a total output of [28] with [12] D8: 12130877 (0s 0.8651ms)
+```
+
+>  *those results are hardware and context dependant, you may not get the same for equivalent workload*

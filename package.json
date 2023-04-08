@@ -4,10 +4,17 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --respawn -- src/index.ts",
-    "prestart": "tsc",
-    "start": "node ./dist/src/index.js",
-    "poststart": "rimraf ./dist"
+    "dev": "ts-node-dev --respawn -- ./main/src/index.ts",
+  
+    "prestart": "tsc --project ./main/tsconfig.main.json",
+    "start": "node ./main/dist/index.js",
+    "start:clean": "rimraf ./main/dist",
+
+    "preanalyze": "tsc --project ./performance-analyzer/tsconfig.analyzer.json",
+    "analyze": "node ./performance-analyzer/dist/performance-analyzer/src/index.js",
+    "analyze:clean": "rimraf ./performance-analyzer/dist",
+
+    "clean": "yarn analyze:clean && yarn start:clean"
   },
   "dependencies": {
     "tsc": "^2.0.4",

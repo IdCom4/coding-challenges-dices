@@ -1,0 +1,56 @@
+{
+    "type": "object",
+    "properties": {
+        "options": {
+            "type": "object",
+            "properties": {
+                "numberOfFacePerDice": {
+                    "type": "number",
+                    "description": "The number of faces per dice to use for those tests",
+                    "default": 6
+                },
+                "baseNumberOfIterations": {
+                    "type": "number",
+                    "description": "The base number of time to run each test before running the next. It serves to average the results. The higher the number, the more precise the mesurement, but also the longer the analyze. Is overriden by 'iterations' property inside tests if specified",
+                    "default": 3
+                },
+                "testsToRun": {
+                    "type": "array",
+                    "description": "The list of tests to run",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "total": {
+                                "type": "number",
+                                "description": "The total that the dices must meet once summed up",
+                                "default": 1
+                            },
+                            "numberOfDices": {
+                                "type": "number",
+                                "description": "The number of dices to use for the test",
+                                "default": 1
+                            },
+                            "iterations": {
+                                "type": "number",
+                                "description": "The number of time to run that test before running the next. It serves to average the results. The higher the number, the more precise the mesurement, but also the longer the analyze.",
+                                "default": 3
+                            }
+                        },
+                        "required": ["total", "numberOfDices"]
+                    },
+                    "default": [{
+                        "total": 1,
+                        "numberOfDices": 1,
+                        "iterations": 3
+                    }]
+                }
+            },
+            "default": {
+                "baseNumberOfIterations": 3,
+                "numberOfFace": 6,
+                "testsToRun": []
+            }
+        }
+        
+    }
+}

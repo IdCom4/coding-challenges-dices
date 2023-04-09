@@ -23,7 +23,7 @@ for (let testIndex = 0; testIndex < options.testsToRun.length; testIndex++) {
             // store start time
             const startTime = process.hrtime()
 
-            version(test.total, test.numberOfDices, options.numberOfFacePerDice)
+            const truc = version(test.total, test.numberOfDices, options.numberOfFacePerDice)
 
             // get the execution time
             const executionTime = process.hrtime(startTime)

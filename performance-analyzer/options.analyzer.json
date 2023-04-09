@@ -1,7 +1,7 @@
 {
     "$schema": "./options.schema.json",
     "options": {
-        "baseNumberOfIterations": 3,
+        "baseNumberOfIterations": 1,
         "numberOfFacePerDice": 6,
         "testsToRun": [
             {
@@ -23,10 +23,6 @@
             {
                 "total": 30,
                 "numberOfDices": 10
-            },
-            {
-                "total": 40,
-                "numberOfDices": 12
             }
         ]
     }

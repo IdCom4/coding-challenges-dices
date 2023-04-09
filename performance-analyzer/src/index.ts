@@ -49,5 +49,7 @@ for (let i = 0; i < resultsData.tests.length; i++) {
     console.log(test.results)
 }
 
+
+
 // store results to file
-fs.writeFile("./performance-analyzer/results.analyzer.json", JSON.stringify(resultsData), (error) => { if (error) console.log('[ERROR] ', error) });
+fs.writeFile("./performance-analyzer/results.analyzer.js", 'const data = ' + JSON.stringify(resultsData), (error) => { if (error) console.log('[ERROR] ', error) });

@@ -85,3 +85,62 @@ $> yarn start 28 12 8
 ```
 
 >  *those results are hardware and context dependant, you may not get the same for equivalent workload*
+
+<br />
+
+## Performance Analyze
+
+You can perform your own bulk tests to see how each version performs in different scenarios.
+
+For that, all you have to do is run the command:
+```bash
+yarn analyze
+```
+
+which will run all the tests decribed in the `./performance-analyze/options.analyzer.json` file.
+
+You can edit this file to make it run your own customized tests.
+This file is related to a schema, which describe its shape and expected content.
+
+Here's an exemple:
+```json
+{
+    "$schema": "./options.schema.json",
+    "options": {
+        "baseNumberOfIterations": 3,
+        "numberOfFacePerDice": 6,
+        "testsToRun": [
+            {
+                "total": 1,
+                "numberOfDices": 1
+            },
+            {
+                "total": 15,
+                "numberOfDices": 5
+            },
+            {
+                "total": 25,
+                "numberOfDices": 8
+            }
+        ]
+    }
+}
+```
+> Each of those options are described directly when editing the file, thanks to the schema file.
+
+<br />
+
+## Visualize the performance tests results
+
+You can visualize the results of your test directly in your navigator in a graphical way, in order to get a better vision off the all.
+
+For that, all you have to do is run the command:
+```bash
+# if you are on a unix disto
+yarn analyze:unix
+# or if you are on windows
+yarn analyze:windows
+```
+
+This command will open you default browser and show you the results of your tests.
+![graphical interface](./doc/image.png)

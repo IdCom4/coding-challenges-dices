@@ -12,7 +12,11 @@
 
     "preanalyze": "tsc --project ./performance-analyzer/tsconfig.analyzer.json",
     "analyze": "node ./performance-analyzer/dist/performance-analyzer/src/index.js",
-    "analyze:clean": "rimraf ./performance-analyzer/dist",
+    "analyze:clean": "rimraf ./performance-analyzer/dist && rimraf ./performance-analyzer/results.analyzer.js",
+
+    "visualize": "path-exists ./performance-analyzer/results.analyzer.js || yarn analyze",
+    "visualize:unix": "yarn visualize && open ./analyze-visualizer/index.html",
+    "visualize:windows": "yarn visualize && start ./analyze-visualizer/index.html",
 
     "clean": "yarn analyze:clean && yarn start:clean"
   },
@@ -23,6 +27,7 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "rimraf": "^4.4.1",
+    "path-exists-cli": "^2.0.0",
     "ts-node-dev": "^2.0.0"
   }
 }

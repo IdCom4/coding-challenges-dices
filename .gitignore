@@ -1,1 +1,6 @@
 node_modules
+.vscode
+
+dist/
+
+performance-analyzer/results.analyzer.json

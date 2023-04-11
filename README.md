@@ -26,11 +26,11 @@ const result = fastestVersion(total, numberOfDices, numberOfFace)
 
 Alternatively, if you want to try out the other (and slower) versions, you can do so:
 ```ts
-import v1 from './src/v1'
-import v2 from './src/v2'
-import v3 from './src/v3'
-import v4 from './src/v4'
-import v5 from './src/v5'
+import v1 from './main/src/v1'
+import v2 from './main/src/v2'
+import v3 from './main/src/v3'
+import v4 from './main/src/v4'
+import v5 from './main/src/v5'
 
 const versions = [ v1, v2, v3, v4, v5 ]
 

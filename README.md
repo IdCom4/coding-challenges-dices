@@ -39,12 +39,12 @@ const numberOfDices = 2
 const numberOfFace = 6
 
 // from slowests to fastests versions
-version.forEach(version =>
+versions.forEach(version =>
   console.log('result: ', version(total, numberOfDices, numberOfFace))
 )
 
 // from fastests to slowests versions
-version.reverse().forEach(version =>
+versions.reverse().forEach(version =>
   console.log('result: ', version(total, numberOfDices, numberOfFace))
 )
 
